@@ -1,0 +1,28 @@
+{
+    "manifest_version": 3,
+    "name": "Tabit!",
+    "version": "0.1.0",
+    "description": "Analyze and optimize your open tabs locally.",
+    "permissions": [
+        "tabs",
+        "storage",
+        "scripting"
+    ],
+    "background": {
+        "service_worker": "background.js",
+        "type": "module"
+    },
+    "action": {
+        "default_popup": "src/popup/index.html",
+        "default_icon": {
+            "16": "assets/icons/icon16.png",
+            "48": "assets/icons/icon48.png",
+            "128": "assets/icons/icon128.png"
+        }
+    },
+    "icons": {
+        "16": "assets/icons/icon16.png",
+        "48": "assets/icons/icon48.png",
+        "128": "assets/icons/icon128.png"
+    }
+}
