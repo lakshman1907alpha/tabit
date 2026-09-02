@@ -13,10 +13,7 @@ const App = () => {
     return (
         <div style={styles.app}>
             <header style={styles.header}>
-                <div style={styles.logoContainer}>
-                    <span style={styles.logoIcon}>⚡</span>
-                    <h1 style={styles.title}>Tabit!</h1>
-                </div>
+                <h1 style={styles.title}>Tabit</h1>
             </header>
             <main style={styles.main}>
                 <Dashboard />
@@ -38,30 +35,19 @@ const styles = {
         padding: '0 20px',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-between',
-        backgroundColor: 'rgba(15, 17, 23, 0.8)', // Glass effect base
-        backdropFilter: 'blur(12px)',
+        backgroundColor: 'var(--bg-primary)',
         borderBottom: '1px solid var(--border-color)',
         zIndex: 100
-    },
-    logoContainer: {
-        display: 'flex',
-        alignItems: 'center',
-        gap: '10px'
-    },
-    logoIcon: {
-        fontSize: '20px'
     },
     title: {
         margin: 0,
         fontSize: '18px',
-        fontWeight: '700',
-        background: 'linear-gradient(90deg, #6366f1, #a855f7)',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent'
+        fontWeight: '600',
+        color: 'var(--accent-primary)',
+        letterSpacing: '-0.5px'
     },
     main: {
-        padding: '20px'
+        padding: '16px'
     }
 };
 

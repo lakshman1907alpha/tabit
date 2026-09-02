@@ -32,7 +32,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
                     const enrichedTabs = tabs.map(tab => {
                         const isDuplicate = duplicateIds.has(tab.id);
-                        const score = ScoringService.calculateScore(tab, metadata[tab.id], isDuplicate);
+                        const score = ScoringService.getVitalityScore(tab, metadata[tab.id]);
                         return { ...tab, score, isDuplicate };
                     });
 

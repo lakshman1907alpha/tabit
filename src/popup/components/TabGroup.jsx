@@ -39,11 +39,12 @@ const TabGroup = ({ domain, tabs, onCloseTab }) => {
 
 const styles = {
     container: {
-        background: 'var(--bg-secondary)',
-        borderRadius: '8px',
+        background: 'var(--bg-primary)',
+        borderRadius: '6px',
         overflow: 'hidden',
         border: '1px solid var(--border-color)',
-        marginBottom: '8px'
+        marginBottom: '8px',
+        boxShadow: '0 1px 2px rgba(0,0,0,0.02)'
     },
     header: {
         padding: '12px 16px',
@@ -52,7 +53,7 @@ const styles = {
         justifyContent: 'space-between',
         alignItems: 'center',
         userSelect: 'none',
-        borderBottom: '1px solid transparent' // Placeholder for expansion
+        borderBottom: '1px solid transparent'
     },
     headerLeft: {
         display: 'flex',
@@ -61,20 +62,20 @@ const styles = {
     },
     chevron: {
         fontSize: '10px',
-        color: 'var(--text-secondary)',
+        color: 'var(--accent-primary)',
         width: '12px'
     },
     domain: {
-        fontWeight: '600',
+        fontWeight: '500',
         fontSize: '13px',
         color: 'var(--text-primary)'
     },
     count: {
-        background: 'rgba(255,255,255, 0.1)',
+        background: '#e9ecef',
         padding: '2px 8px',
         borderRadius: '12px',
         fontSize: '11px',
-        color: 'var(--text-secondary)',
+        color: 'var(--text-primary)',
         fontWeight: '500'
     },
     list: {

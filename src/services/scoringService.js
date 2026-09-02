@@ -2,55 +2,82 @@
  * scoringService.js
  * 
  * Responsibility:
- * - Calculate 'Safe to Close' score (0-100)
- * - Input: Inactivity time, duplication status, matching patterns
+ * - Calculate 'Vitality Score' (0-100) using Exponential Decay and Context Rules
+ * - Input: Inactivity time, url context, tab state
  */
 
-import { CONSTANTS } from '../utils/constants';
 import { DateUtils } from '../utils/dateUtils';
+
+const CONTEXT_HALF_LIVES = {
+    // Fast decay for news/social (30 minutes)
+    FAST: 30 * 60 * 1000,
+    // Slow decay for productivity (12 hours)
+    SLOW: 12 * 60 * 60 * 1000,
+    // Default decay (2 hours)
+    DEFAULT: 2 * 60 * 60 * 1000
+};
+
+const DOMAIN_CONTEXTS = {
+    'cnn.com': 'FAST',
+    'nytimes.com': 'FAST',
+    'reddit.com': 'FAST',
+    'twitter.com': 'FAST',
+    'facebook.com': 'FAST',
+    'docs.google.com': 'SLOW',
+    'github.com': 'SLOW',
+    'figma.com': 'SLOW',
+    'notion.so': 'SLOW',
+    'jira.com': 'SLOW'
+};
 
 export const ScoringService = {
     /**
-     * Calculate a score for a tab
-     * Higher score = Safer to close
+     * Get the Vitality Score for a tab (0-100).
+     * 100 = fully alive (don't suspend)
+     * < 20 = candidate for suspension
+     * 0 = candidate for closing
+     * 
      * @param {chrome.tabs.Tab} tab 
-     * @param {Object} metadata (lastAccessed, etc)
-     * @param {boolean} isDuplicate
+     * @param {Object} metadata (lastAccessed)
      * @returns {number} Score 0-100
      */
-    calculateScore: (tab, metadata, isDuplicate) => {
-        let score = 0;
-
-        // 1. Duplicates are very safe to close
-        if (isDuplicate) {
-            score += CONSTANTS.SCORING.DUPLICATE_WEIGHT;
+    getVitalityScore: (tab, metadata) => {
+        // Immunity Rules
+        if (tab.pinned || tab.audible || tab.active) {
+            return 100;
         }
 
-        // 2. Inactivity
-        // If we have metadata, use it. usage of 'lastAccessed'.
-        // If not, we might rely on other heuristics or it's a new tab (score 0)
         const lastAccessed = metadata?.lastAccessed;
+        if (!lastAccessed) {
+            // New tabs or tabs without metadata start at 100
+            return 100;
+        }
 
-        if (lastAccessed) {
-            const timeSince = DateUtils.timeSince(lastAccessed);
-
-            if (timeSince > CONSTANTS.STALE_THRESHOLD) {
-                score += CONSTANTS.SCORING.STALE_WEIGHT;
-            } else if (timeSince > CONSTANTS.INACTIVITY_THRESHOLD) {
-                score += CONSTANTS.SCORING.INACTIVE_WEIGHT;
+        const timeSince = DateUtils.timeSince(lastAccessed);
+        
+        // Determine Context Half-Life
+        let halfLife = CONTEXT_HALF_LIVES.DEFAULT;
+        if (tab.url) {
+            try {
+                const urlObj = new URL(tab.url);
+                const hostname = urlObj.hostname.replace(/^www\./, '');
+                
+                // Check if hostname matches any known context domains
+                const matchedDomain = Object.keys(DOMAIN_CONTEXTS).find(d => hostname.includes(d));
+                if (matchedDomain) {
+                    halfLife = CONTEXT_HALF_LIVES[DOMAIN_CONTEXTS[matchedDomain]];
+                }
+            } catch (e) {
+                // Invalid URL (e.g., chrome://) stays default or we can make them immune
+                if (tab.url.startsWith('chrome://')) return 100;
             }
         }
 
-        // 3. Pinned tabs are protected (score -100 or just 0 cap)
-        if (tab.pinned) {
-            return 0;
-        }
+        // Exponential Decay: N(t) = N0 * (1/2)^(t/t_half)
+        // We use Math.pow(0.5, timeSince / halfLife)
+        const decayFactor = Math.pow(0.5, timeSince / halfLife);
+        let score = 100 * decayFactor;
 
-        // 4. Audio playing tabs are protected
-        if (tab.audible) {
-            return 0;
-        }
-
-        return Math.min(score, 100);
+        return Math.max(0, Math.round(score));
     }
 };

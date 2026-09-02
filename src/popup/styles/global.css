@@ -8,21 +8,21 @@
  */
 
 :root {
-  /* Dark Theme Palette */
-  --bg-primary: #0f1117;
-  --bg-secondary: #1e212b;
-  --bg-hover: #2d3342;
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --accent-primary: #6366f1;
-  --accent-hover: #4f46e5;
-  --border-color: #334155;
-  --danger-color: #ef4444;
-  --success-color: #10b981;
+  /* Light Theme Palette - White & Blue */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --bg-hover: #e2e6ea;
+  --text-primary: #212529;
+  --text-secondary: #6c757d;
+  --accent-primary: #0056b3;
+  --accent-hover: #004494;
+  --border-color: #dee2e6;
+  --danger-color: #dc3545;
+  --success-color: #28a745;
 
   /* Layout */
-  --header-height: 60px;
-  --border-radius: 8px;
+  --header-height: 56px;
+  --border-radius: 6px;
 }
 
 body {

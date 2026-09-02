@@ -74,7 +74,7 @@ const styles = {
         padding: '20px',
         color: 'var(--danger-color)',
         border: '1px solid var(--danger-color)',
-        borderRadius: '8px'
+        borderRadius: '6px'
     },
     statsGrid: {
         display: 'grid',
@@ -82,18 +82,19 @@ const styles = {
         gap: '12px'
     },
     card: {
-        background: 'var(--bg-secondary)',
+        background: 'var(--bg-primary)',
         padding: '16px',
-        borderRadius: '12px',
+        borderRadius: '6px',
         border: '1px solid var(--border-color)',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
     },
     cardWarning: {
-        borderColor: 'rgba(239, 68, 68, 0.3)',
-        background: 'rgba(239, 68, 68, 0.05)'
+        borderColor: 'var(--danger-color)',
+        background: '#fff5f5'
     },
     cardLabel: {
         fontSize: '11px',
@@ -104,8 +105,8 @@ const styles = {
     },
     cardValue: {
         fontSize: '20px',
-        fontWeight: '700',
-        color: 'var(--text-primary)'
+        fontWeight: '600',
+        color: 'var(--accent-primary)'
     },
     groupsSection: {
         display: 'flex',
@@ -116,14 +117,17 @@ const styles = {
         fontSize: '14px',
         fontWeight: '600',
         color: 'var(--text-secondary)',
-        margin: 0
+        margin: 0,
+        textTransform: 'uppercase',
+        letterSpacing: '0.5px'
     },
     emptyState: {
         textAlign: 'center',
         padding: '40px',
         color: 'var(--text-secondary)',
         background: 'var(--bg-secondary)',
-        borderRadius: '12px'
+        borderRadius: '6px',
+        border: '1px dashed var(--border-color)'
     }
 };
 

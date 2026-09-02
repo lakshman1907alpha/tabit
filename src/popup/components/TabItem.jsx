@@ -62,10 +62,10 @@ const styles = {
         justifyContent: 'space-between',
         padding: '10px 16px',
         borderBottom: '1px solid var(--border-color)',
-        backgroundColor: 'var(--bg-secondary)', // Match parent
+        backgroundColor: 'var(--bg-primary)', 
         transition: 'background-color 0.2s',
         cursor: 'default',
-        position: 'relative' // For absolute positioning if needed
+        position: 'relative'
     },
     containerHover: {
         backgroundColor: 'var(--bg-hover)'
@@ -94,7 +94,7 @@ const styles = {
     },
     title: {
         fontSize: '13px',
-        fontWeight: '500',
+        fontWeight: '400',
         color: 'var(--text-primary)',
         overflow: 'hidden',
         whiteSpace: 'nowrap',
@@ -106,11 +106,11 @@ const styles = {
     },
     score: {
         color: 'var(--accent-primary)',
-        fontWeight: '600'
+        fontWeight: '500'
     },
     closeBtn: {
         border: 'none',
-        background: 'rgba(255, 255, 255, 0.05)',
+        background: 'rgba(0, 0, 0, 0.05)',
         borderRadius: '50%',
         width: '24px',
         height: '24px',
