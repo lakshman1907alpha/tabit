@@ -22,6 +22,17 @@ chrome.runtime.onInstalled.addListener(async () => {
     const activeIds = tabs.map(t => t.id);
     await StorageService.pruneStaleMetadata(activeIds);
 
+    // Seed metadata for existing tabs so scoring works immediately
+    for (const tab of tabs) {
+        if (tab.lastAccessed) {
+            await StorageService.updateTabMetadata(tab.id, {
+                lastAccessed: tab.lastAccessed,
+                url: tab.url,
+                title: tab.title
+            });
+        }
+    }
+
     // Setup periodic alarm (runs every 5 minutes)
     chrome.alarms.create(DECAY_ALARM_NAME, { periodInMinutes: 5 });
 });

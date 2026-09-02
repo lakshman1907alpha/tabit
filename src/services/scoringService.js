@@ -47,9 +47,10 @@ export const ScoringService = {
             return 100;
         }
 
-        const lastAccessed = metadata?.lastAccessed;
+        // Use extension metadata first, fall back to Chrome's native tab.lastAccessed
+        const lastAccessed = metadata?.lastAccessed || tab.lastAccessed;
         if (!lastAccessed) {
-            // New tabs or tabs without metadata start at 100
+            // Truly new tabs with no timestamp at all start at 100
             return 100;
         }
 
